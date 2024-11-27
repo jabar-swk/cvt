@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Vitae</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <style>
+        /* Reset dan gaya global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Mode Gelap */
+        body.dark-mode {
+            background-color: #121212;
+            color: #fff;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        nav .logo a {
+            color: #fefefd;
+            font-size: 24px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav .navbar {
+            list-style: none;
+            display: flex;
+        }
+
+        nav .navbar li {
+            margin-left: 30px;
+        }
+
+        nav .navbar li a {
+            color: #f9f9f9;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        nav .navbar li a:hover {
+            color: #010c13;
+        }
+
+        /* Menu Mobile */
+        .menu-toggle {
+            display: none; /* Sembunyikan ikon hamburger secara default */
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 25px;
+            height: 20px;
+        }
+
+        .menu-toggle .bar {
+            width: 100%;
+            height: 3px;
+            background-color: #f5f3f3;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Tampil pada layar kecil (Mobile) */
+        @media (max-width: 768px) {
+            nav .navbar {
+                display: none; /* Navbar tersembunyi pada layar kecil */
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+            }
+
+            .menu-toggle {
+                display: flex; /* Tampilkan ikon hamburger */
+            }
+
+            .navbar.active {
+                display: flex; /* Menampilkan navbar saat menu toggle diaktifkan */
+            }
+
+            /* Animasi saat menu toggle aktif */
+            .menu-toggle.active .bar:nth-child(1) {
+                transform: rotate(45deg);
+                position: relative;
+                top: 8px;
+            }
+
+            .menu-toggle.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active .bar:nth-child(3) {
+                transform: rotate(-45deg);
+                position: relative;
+                top: -8px;
+            }
+        }
+
+        /* Section Hero */
+        header#hero {
+            height: 100vh;
+            background: url('yyy.jpg') no-repeat center center/cover;
+            color: #fdfdfe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background-size: cover;
+            background-position: center center;
+        }
+
+        header#hero .name {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        header#hero .title {
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+
+        /* Styling Section */
+        section {
+            padding: 60px 0;
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        section h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .contact-info, .timeline, .skill-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-info p,
+        .timeline-item p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+        .timeline-item {
+            width: 45%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Section Keterampilan */
+        .skill-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 250px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .skill-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            background-color: #897d7d;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #3495db;
+        }
+
+        /* Modal Kontak */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            width: 400px;
+            border-radius: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .close {
+            font-size: 30px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #333;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fcfafa;
+            margin-top: 40px;
+        }
+
+        footer p {
+            font-size: 1rem;
+        }
+
+        /* Tombol Dark Mode */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #070606;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background-color: #555;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Tombol untuk Toggle Dark Mode -->
+    <button class="toggle-btn" aria-label="Toggle Dark Mode" onclick="toggleDarkMode()">🌙</button>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <a href="#">Logo</a>
+            </div>
+            <ul class="navbar">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#saya">Tentang saya</a></li>
+                <li><a href="#education">Pendidikan</a></li>
+                <li><a href="#experience">Pengalaman</a></li>
+                <li><a href="#skills">Keterampilan</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+            <div class="menu-toggle" aria-label="Toggle Navigation" onclick="toggleMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero">
+        <div class="container">
+            <h1 class="name">Jabar</h1>
+            <p class="title">Web Developer | Programmer | Designer</p>
+        </div>
+    </header>
+
+    <!-- Modal untuk Formulir Kontak -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close" aria-label="Close Modal">&times;</span>
+            <h2>Kirim Pesan</h2>
+            <form class="contact-form">
+                <input type="text" name="name" placeholder="Nama Anda" required>
+                <input type="email" name="email" placeholder="Email Anda" required>
+                <textarea name="message" placeholder="Pesan Anda" required></textarea>
+                <button type="submit">Kirim Pesan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pendidikan Section -->
+    <section id="education">
+        <div class="container">
+            <h2>Pendidikan</h2>
+            <ul class="timeline">
+                <li class="timeline-item"><strong>Universitas GM</strong> <br> Sarjana Teknik Informatika (2020 - 2023)</li>
+                <li class="timeline-item"><strong>SMA Negeri 1 Majalaya</strong> <br> IPA Ilmu pengetahuan alam(2017 - 2020)</li>
+                <li class="timeline-item"><strong>SMP Negeri 1 Majalaya</strong> <br> lulus pada tahun (2014 - 2017)</li>
+                <li class="timeline-item"><strong>SD Negeri Lemahmulya 2</strong> <br> lulus pada tahun (2008 - 2014)</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Pengalaman Kerja Section -->
+    <section id="experience">
+        <div class="container">
+            <h2>Pengalaman Kerja</h2>
+            <ul class="timeline">
+                <li class="timeline-item">
+                    <h3>Web Developer Intern</h3>
+                    <span>Perusahaan XYZ (2022 - Sekarang)</span>
+                    <p>Mengembangkan dan memelihara situs web menggunakan HTML, CSS, dan JavaScript.</p>
+                </li>
+                <li class="timeline-item">
+                    <h3>Freelance Designer</h3>
+                    <span>2021 - 2022</span>
+                    <p>Mendesain logo dan materi pemasaran untuk klien lokal.</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Keterampilan Section -->
+    <section id="skills">
+        <div class="container">
+            <h2>Keterampilan</h2>
+            <div class="skill-cards">
+                <div class="skill-card">
+                    <h4>HTML & CSS</h4>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 90%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <h4>JavaScript</h4>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <h4>PHP & MySQL</h4>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontak Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Kontak</h2>
+            <div class="contact-info">
+                <p>Email: <a href="mailto:yourname@example.com">m.abdul.jabar321@gmail.com</a></p>
+                <p>Telepon: (+62) 882002054941</p>
+                <p>Link Github: <a href=" https://jabar-swk.github.io/cvt/" target="_blank">Pages</a></p>
+            </div>
+            <button class="open-modal-btn" aria-label="Open Contact Form">Kirim Pesan</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Hak Cipta &copy; 2023 jabar-swk. Semua hak dilindungi.</p>
+    </footer>
+
+    <script>
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Modal Kontak
+        const modal = document.getElementById("contactModal");
+        const openModalBtn = document.querySelector(".open-modal-btn");
+        const closeModalBtn = document.querySelector(".close");
+
+        openModalBtn.addEventListener("click", function() {
+            modal.style.display = "flex";
+        });
+
+        closeModalBtn.addEventListener("click", function() {
+            modal.style.display = "none";
+        });
+
+        window.addEventListener("click", function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        });
+
+        // Toggle Menu Navbar untuk tampilan mobile
+        function toggleMenu() {
+            const navbar = document.querySelector('.navbar');
+            const menuToggle = document.querySelector('.menu-toggle');
+            navbar.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
